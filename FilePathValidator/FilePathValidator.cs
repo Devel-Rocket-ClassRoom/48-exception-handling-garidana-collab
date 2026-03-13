@@ -16,7 +16,7 @@ class FilePathValidator
         // 세세한 검증부터 광범위 검증순으로 예외 처리
         if (path == null || path == string.Empty)
         {
-            throw new ArgumentNullException();
+            throw new ArgumentNullException("이이잉");
         }
         char[] forbiddenchars = { '<', '>', '|', '"', '*', '?' };
         foreach (char c in forbiddenchars)
