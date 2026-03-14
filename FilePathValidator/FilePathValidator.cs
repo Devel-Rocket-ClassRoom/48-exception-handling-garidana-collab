@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using static System.Console;
 
 
@@ -16,7 +17,7 @@ class FilePathValidator
         // 세세한 검증부터 광범위 검증순으로 예외 처리
         if (path == null || path == string.Empty)
         {
-            throw new ArgumentNullException("이이잉");
+            throw new ArgumentNullException();
         }
         char[] forbiddenchars = { '<', '>', '|', '"', '*', '?' };
         foreach (char c in forbiddenchars)
@@ -31,13 +32,32 @@ class FilePathValidator
         {
             throw new ArgumentOutOfRangeException("경로 길이가 260자를 초과합니다.");
         }
-        
+        WriteLine($"경로가 유효합니다: {path}");
         
     }
     // 확장자 검증
+    // . 뒤의 텍스트를 검증
+    // string 메서드 사용
+    // 혀용된 확장자 배열을 매개변수로 받음 (매개변수 path의 검증용)
     public void ValidateExtension(string path, string[] allowedExtensions)
     {
-        
-        string extension = Path.GetExtension(path);
+        int dotIndex = path.LastIndexOf('.'); // 마지막 점 위치의 인덱스
+        string extension = path.Substring(dotIndex);  // 그 인덱스부터 끝까지 자르기
+        bool IsFound = false;
+
+        foreach (string ex in allowedExtensions)
+        {
+            if (ex == extension)
+            {
+                IsFound = true;
+                
+                break;
+            }
+        }
+        if (!IsFound)
+        {
+            throw new ArgumentException($"허용되지 않은 확장자입니다: {extension}");
+        }
+        WriteLine($"확장자가 유효합니다: {extension}");
     }
 }
