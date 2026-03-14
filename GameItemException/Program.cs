@@ -8,25 +8,30 @@ using static System.Console;
 Inventory inv = new Inventory(3);
 
 WriteLine("=== 인벤토리 테스트 ===");
-inv.AddItem("검");
-inv.AddItem("방패");
-inv.AddItem("포션");
-try
-{
-    inv.AddItem("활");
-}
-catch (InventoryFullException e)
-{
-    WriteLine($"[인벤토리 오류] {e.Message}");
-}
+InvTryCatchAdd("검");
+InvTryCatchAdd("방패");
+InvTryCatchAdd("포션");
+InvTryCatchAdd("활");
+
 WriteLine();
+
 inv.ShowItem();
-inv.RemoveItem("포션");
-try
+RemoveTryCatch("포션");
+RemoveTryCatch("도끼");
+
+WriteLine();
+
+inv.ShowItem();
+
+
+void InvTryCatchAdd (string itemName)
 {
-    inv.RemoveItem("Dok2");
+    try { inv.AddItem(itemName); }
+    catch (InventoryFullException e) { WriteLine($"[인벤토리 오류] {e.Message}"); }
 }
-catch (ItemNotFoundException e)
+
+void RemoveTryCatch (string itemName)
 {
-    WriteLine($"[인벤토리 오류] {e.Message}");
+    try { inv.RemoveItem(itemName); }
+    catch (ItemNotFoundException e) { WriteLine($"[인벤토리 오류] {e.Message}"); }
 }
