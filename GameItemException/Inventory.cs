@@ -18,20 +18,24 @@ class Inventory
 
     public void AddItem(string itemName)
     {
+        
         if (items.Count >= maxCapacity)
         {
             throw new InventoryFullException(items.Count, itemName);
         }
         items.Add(itemName);
+        WriteLine($"아이템 '{itemName}' 추가됨");
     }
 
     public void RemoveItem(string itemName)
     {
+        
         if (!items.Contains(itemName))
         {
             throw new ItemNotFoundException(itemName);
         }
         items.Remove(itemName);
+        WriteLine($"아이템 '{itemName}' 제거됨");
     }
     public void ShowItem()
     {
